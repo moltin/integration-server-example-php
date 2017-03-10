@@ -172,17 +172,19 @@ $app->post('/email', function($request, $response, $args) {
 
     // Should we proceed with the delivery of this email?
     // Do some of your own checks if required and tell us if you want to
-    // abandon delivery of the email bysetting this to false
+    // abandon delivery of the email by setting this to false.
+    // If you do set it to false, we will not attempt any more deliveries
+    // of this integration
     $proceed = true;
 
     // When we receive a response you must have one of (or both) of these
     // variables set to strings so that we have an email body to send
-    $html = false;
-    $plain = false;
+    $html = "";
+    $plain = "";
 
     // If you want to change the email subject dynamically, do so here in
     // accordance with https://tools.ietf.org/html/rfc2822
-    $subject = false;
+    $subject = "";
 
     // get the payload
     $payload = $request->getAttribute('payload');
@@ -190,8 +192,15 @@ $app->post('/email', function($request, $response, $args) {
     // do something with it
     if ($payload->trigger === "order.created") {
 
-        // change the email subject
+        // default subject
         $subject = "♥ Thanks for your order. You Superstar!";
+        foreach($payload->resources as $resource) {
+            if ($resource['type'] === "order") {
+                // change the email subject
+                $subject = "♥ Thanks for your order (" . $resource['id'] . "). You Superstar!";
+            }
+        }
+
         $plain = "Wow. You've done some mighty fine work getting yourself some good swag.
 
 We've got your order and are processing it now. We'll be in touch soon!";
@@ -202,9 +211,9 @@ We've got your order and are processing it now. We'll be in touch soon!";
             $products = $this->moltin->products->sort('name')->limit(10)->all()->data();
 
             if (!empty($products)) {
-                $plain .= "\n\nPS, why not take a look around some more of our products whilst you're wating:\n";
+                $plain .= "\n\nPS, why not take a look around some more of our products whilst you're wating:\n\n";
                 foreach($products as $product) {
-                    $plain .= $product->name . ": http://yourstore.com/products/" . $product->slug . "/" . $product->id . "\n";
+                    $plain .= $product->name . ": http://yourstore.com/products/" . $product->id . "\n";
                 }
             }
 
