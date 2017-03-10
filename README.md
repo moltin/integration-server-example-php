@@ -1,6 +1,6 @@
 # PHP Example of an Integration Server
 
-This repsository is a PHP demo application that shows what can be accomplished with the [moltin integrations](https://moltin.api-docs.io/v2/integrations) functionality.
+This repository is a demo PHP application that shows what can be accomplished with the [moltin integrations](https://moltin.api-docs.io/v2/integrations) features.
 
 When using integrations, you can choose receive notifications when observed events occur on your store. There are two types of integration that can then callback to this application - `webhooks` and `emails`. Both deliver the same payload to your application.
 
@@ -42,9 +42,9 @@ SLACK_CHANNEL=""
 SLACK_LINK_NAMES=true
 ```
 
-First you will need to [generate the webhook URL](https://my.slack.com/services/new/incoming-webhook) and use the URL as the `SLACK_WEBHOOK` ENV variable. Then add the `SLACK_CHANNEL` (#channel or @user-name) you want to notify.
+First you will need to [generate the webhook URL](https://my.slack.com/services/new/incoming-webhook) and use the URL as the `SLACK_WEBHOOK` ENV variable. Then add the `SLACK_CHANNEL` (`#channel` or `@user-name`) you want to notify.
 
-The icon and username can be customised.
+The icon and username can be customised but there are some nice defaults in the template.
 
 To trigger this event for testing, you can make a `POST` request to `http://localhost:8000/webhook` with your secret key in the header and a json payload:
 
