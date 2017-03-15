@@ -85,7 +85,7 @@ $app->get('/', function($request, $response, $args) {
 /**
  *  NOTE you will want to abstract this, probably into anther class
  */
-function sendSlackNewOrderkNotification($slack, $from, $to, $icon, $payload) {
+function sendSlackNewOrderNotification($slack, $from, $to, $icon, $payload) {
 
     $notification = $slack
         ->from($from)
@@ -128,6 +128,26 @@ function sendSlackNewOrderkNotification($slack, $from, $to, $icon, $payload) {
     $notification->send($message);
 }
 
+function sendSlackNewProductNotification($slack, $from, $to, $icon, $payload) {
+
+    $notification = $slack
+        ->from($from)
+        ->to($to)
+        ->withIcon($icon);
+
+    $message = 'A product has been created';
+    foreach($payload->resources as $resource) {
+        if ($resource['type'] === "product") {
+            $forgeLink = "https://forge.moltin.com/inventory/products/" . $resource['id'];
+            $message .= " (" . $resource['name'] . ")";
+            $message .= "\n<" . $forgeLink . "|View the product on Forge>";
+            break;
+        }
+    }
+
+    $notification->send($message);
+}
+
 /**
  * Receive an incoming notification of webhook integration type
  */
@@ -143,7 +163,7 @@ $app->post('/webhook', function($request, $response, $args) {
     if ($payload->trigger === "order.created") {
 
         if (!empty(getenv('SLACK_WEBHOOK'))) {
-            sendSlackNewOrderkNotification(
+            sendSlackNewOrderNotification(
                 $this->slack,               // container
                 getenv('SLACK_USERNAME'),   // from
                 getenv('SLACK_CHANNEL'),    // to
@@ -153,6 +173,20 @@ $app->post('/webhook', function($request, $response, $args) {
         }
 
         // do other stuff
+
+    }
+
+    if ($payload->trigger === "product.created") {
+
+        if (!empty(getenv('SLACK_WEBHOOK'))) {
+            sendSlackNewProductNotification(
+                $this->slack,               // container
+                getenv('SLACK_USERNAME'),   // from
+                getenv('SLACK_CHANNEL'),    // to
+                getenv('SLACK_ICON'),       // icon URL
+                $payload                    // payload
+            );
+        }
 
     }
 
