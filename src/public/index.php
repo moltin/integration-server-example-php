@@ -65,6 +65,13 @@ $container['moltin']  = new \Moltin\Client([
     'locale' => getenv('LOCALE')
 ]);
 
+$container['logger'] = function($c) {
+    $logger = new \Monolog\Logger('example.integration.server');
+    $file_handler = new \Monolog\Handler\StreamHandler("../logs/app.log");
+    $logger->pushHandler($file_handler);
+    return $logger;
+};
+
 /**
  *  Add a slack webhook to the container
  */
@@ -138,7 +145,7 @@ function sendSlackNewProductNotification($slack, $from, $to, $icon, $payload) {
     $message = 'A product has been created';
     foreach($payload->resources as $resource) {
         if ($resource['type'] === "product") {
-            $forgeLink = "https://forge.moltin.com/inventory/products/" . $resource['id'];
+            $forgeLink = "https://forge.molt.in/inventory/products/" . $resource['id'];
             $message .= " (" . $resource['name'] . ")";
             $message .= "\n<" . $forgeLink . "|View the product on Forge>";
             break;
@@ -152,6 +159,9 @@ function sendSlackNewProductNotification($slack, $from, $to, $icon, $payload) {
  * Receive an incoming notification of webhook integration type
  */
 $app->post('/webhook', function($request, $response, $args) {
+
+    // add a log entry
+    $this->logger->addInfo("Webhook integration notification received (" . $request->getHeader('X-MOLTIN-INTEGRATION-TRIGGER')[0] . ")");
 
     // get the payload
     $payload = $request->getAttribute('payload');
@@ -187,7 +197,6 @@ $app->post('/webhook', function($request, $response, $args) {
                 $payload                    // payload
             );
         }
-
     }
 
     // Note: the body is not required in the response, nothing is done with
@@ -203,6 +212,9 @@ $app->post('/webhook', function($request, $response, $args) {
  * this endpoint will be hit
  */
 $app->post('/email', function($request, $response, $args) {
+
+    // add a log entry
+    $this->logger->addInfo("Email integration notification received (" . $request->getHeader('X-MOLTIN-INTEGRATION-TRIGGER')[0] . ")");
 
     // Should we proceed with the delivery of this email?
     // Do some of your own checks if required and tell us if you want to
