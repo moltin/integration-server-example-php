@@ -22,9 +22,9 @@ $app = new \Slim\App($config);
 $app->add(function ($request, $response, $next) {
 
     if (
-        getenv('INTEGRATION_SECRET') && (
+        getenv('MOLTIN_INTEGRATION_SECRET') && (
             empty($request->getHeader('X-MOLTIN-SECRET-KEY')) ||
-            $request->getHeader('X-MOLTIN-SECRET-KEY')[0] !== getenv('INTEGRATION_SECRET')
+            $request->getHeader('X-MOLTIN-SECRET-KEY')[0] !== getenv('MOLTIN_INTEGRATION_SECRET')
         )
     ) {
         return $response->withJson([
@@ -60,11 +60,11 @@ $container = $app->getContainer();
  *  Add the moltin API as a service so you can make API calls
  */
 $container['moltin']  = new \Moltin\Client([
-    'client_id' => getenv('CLIENT_ID'),
-    'client_secret' => getenv('CLIENT_SECRET'),
-    'currency_code' => getenv('CURRENCY_CODE'),
-    'language' => getenv('LANGUAGE'),
-    'locale' => getenv('LOCALE')
+    'client_id' => getenv('MOLTIN_CLIENT_ID'),
+    'client_secret' => getenv('MOLTIN_CLIENT_SECRET'),
+    'currency_code' => getenv('MOLTIN_CURRENCY_CODE'),
+    'language' => getenv('MOLTIN_LANGUAGE'),
+    'locale' => getenv('MOLTIN_LOCALE')
 ]);
 
 $container['logger'] = function($c) {
