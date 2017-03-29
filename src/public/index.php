@@ -147,7 +147,7 @@ function sendSlackNewProductNotification($slack, $from, $to, $icon, $payload) {
     $message = 'A product has been created';
     foreach($payload->resources as $resource) {
         if ($resource['type'] === "product") {
-            $forgeLink = "https://forge.molt.in/inventory/products/" . $resource['id'];
+            $forgeLink = "https://forge.molt.in/catalogue/products/" . $resource['id'];
             $message .= " (" . $resource['name'] . ")";
             $message .= "\n<" . $forgeLink . "|View the product on Forge>";
             break;
