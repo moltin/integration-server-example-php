@@ -5,5 +5,10 @@
         "moltin/php-sdk": "v2.x-dev",
         "maknz/slack": "^1.7",
         "monolog/monolog": "^1.22.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "IntegrationServer\\" : "src/app"
+        }
     }
 }
