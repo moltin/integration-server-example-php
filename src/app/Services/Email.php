@@ -18,6 +18,12 @@ class Email
     private $html = "";
     private $plain = "";
 
+    public function cancel()
+    {
+        $this->proceed = false;
+        return $this;
+    }
+
     public function getSubject()
     {
         return $this->subject;
