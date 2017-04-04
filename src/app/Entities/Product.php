@@ -2,6 +2,8 @@
 
 namespace IntegrationServer\Entities;
 
+use \IntegrationServer\Services\Email;
+
 class Product extends \IntegrationServer\Entity
 {
 
@@ -23,7 +25,13 @@ class Product extends \IntegrationServer\Entity
         }
 
         if ($type === 'email') {
-            // product created email
+
+            $email = new Email();
+            $email->setSubject("Product Updated");
+            $email->setHTML("<p>A product has been updated</p>");
+            $email->setPlain("A product has been updated");
+            $email->cancel();
+            return $email->getResponseBody();
         }
     }
 
