@@ -19,22 +19,21 @@ class Order extends \IntegrationServer\Entity
 
                 if (($order = $this->getResource('order', $payload))) {
 
-                    $forgeLink = $this->forgeLink("admin/orders/" . $order['id']);
+                    $forgeLink = $this->forgeLink("admin/orders/" . $order->id);
                     $message .= "\n<" . $forgeLink . "|View on Forge>";
                     $attachment = [
                         "text" => false,
                         "fallback" => false,
-                        "author_name" => $order['customer']['name'],
                         "author_link" => $forgeLink,
                         "fields" => [
                             [
                                 "title" => "Value",
-                                "value" => $order['meta']['value']['with_tax']['formatted'],
+                                "value" => $order->meta->value->with_tax->formatted,
                                 "short" => true
                             ],
                             [
                                 "title" => "Products",
-                                "value" => $order['meta']['counts']['products']['total'] . " (total) / " . $order['meta']['counts']['products']['unique'] . " (unique)",
+                                "value" => $order->meta->counts->products->total . " (total) / " . $order->meta->counts->products->unique . " (unique)",
                                 "short" => true
                             ]
                         ]
@@ -51,7 +50,7 @@ class Order extends \IntegrationServer\Entity
 
             $email->setSubject("♥ Thanks for your order. You Superstar!");
             if (($order = $this->getResource('order', $payload))) {
-                $email->setSubject("♥ Thanks for your order (" . $order['id'] . "). You Superstar!");
+                $email->setSubject("♥ Thanks for your order (" . $order->id . "). You Superstar!");
             }
 
 

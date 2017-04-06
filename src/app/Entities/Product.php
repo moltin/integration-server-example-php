@@ -15,8 +15,8 @@ class Product extends \IntegrationServer\Entity
 
                 $message = 'A product has been created';
                 if (($product = $this->getResource('product', $payload))) {
-                    $forgeLink = $this->forgeLink("catalogue/products/" . $product['id']);
-                    $message .= " (" . $product['name'] . ")";
+                    $forgeLink = $this->forgeLink("catalogue/products/" . $product->id);
+                    $message .= " (" . $product->name . ")";
                     $message .= "\n<" . $forgeLink . "|View on Forge>";
                 }
 

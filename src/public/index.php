@@ -51,7 +51,7 @@ $app->add(function($request, $response, $next) {
     $payload->trigger = $body['triggered_by'];
     $payload->attempt = (int) $body['attempt'];
     $payload->integration = $body['integration'];
-    $payload->resources = isset($body['resources']) ? $body['resources'] : [];
+    $payload->resources = isset($body['resources']) ? json_decode($body['resources']) : [];
 
     // add the payload to the request
     $request = $request->withAttribute('payload', $payload);

@@ -28,10 +28,8 @@ class Entity
 
     public function getResource($type, $payload)
     {
-        foreach($payload->resources as $resource) {
-            if ($resource['type'] === $type) {
-                return $resource;
-            }
+        if (is_object($payload->resources->data)) {
+            return $payload->resources->data->type == $type ? $payload->resources->data : false;
         }
         return false;
     }
