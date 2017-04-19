@@ -12,7 +12,7 @@ class EmailHandler extends BaseHandler
 
         // parse the trigger and create $entity and $action vars
         $parsedTrigger = explode('.', $payload->trigger);
-        $entity = ucfirst(strtolower($parsedTrigger[0]));
+        $entity = ucfirst(str_replace(' ', '', ucwords(str_replace('-', ' ', $parsedTrigger[0]))));
         $action = strtolower($parsedTrigger[1]);
 
         // if we have a matching $entity class and a method with the $action, fire it

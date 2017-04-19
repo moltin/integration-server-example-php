@@ -12,6 +12,9 @@ class WebhookHandler extends BaseHandler
 
         // parse the trigger and create $entity and $action vars
         $parsedTrigger = explode('.', $payload->trigger);
+        $parsedTrigger[0] = str_replace('-', ' ', $parsedTrigger[0]);
+        $parsedTrigger[0] = ucwords($parsedTrigger[0]);
+        $parsedTrigger[0] = str_replace(' ', '', $parsedTrigger[0]);
         $entity = ucfirst(strtolower($parsedTrigger[0]));
         $action = strtolower($parsedTrigger[1]);
 

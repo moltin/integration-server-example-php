@@ -16,7 +16,7 @@ class PaymentGateway extends \IntegrationServer\Entity
                 $message = 'A payment gateway has been updated';
                 if (($gateway = $this->getResource('gateway', $payload))) {
                     $forgeLink = $this->forgeLink("gateways/" . $gateway->slug);
-                    $message .= " (" . $gateway->code . ")";
+                    $message .= " (" . $gateway->slug . ")";
                     $message .= "\n<" . $forgeLink . "|View on Forge>";
                 }
 
