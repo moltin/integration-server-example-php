@@ -77,7 +77,7 @@ $container['phpErrorHandler'] = function ($container) {
  */
 $container['logger'] = function($c) {
     $logger = new \Monolog\Logger('example.integration.server');
-    $file_handler = new \Monolog\Handler\StreamHandler("../logs/app.log");
+    $file_handler = new \Monolog\Handler\StreamHandler(getenv('APP_LOG_STREAM'));
     $logger->pushHandler($file_handler);
     return $logger;
 };
