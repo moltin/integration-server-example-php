@@ -25,6 +25,12 @@ class EmailHandler extends BaseHandler
         if (!$body) {
             $body = ['acknowledged' => true];
         }
+        if (getenv('APP_DEBUG') == "true") {
+            $body['debug'] = [
+                'payload' => $payload,
+                'entity' => $entityClass
+            ];
+        }
 
         // Note: the body is not required in the response, nothing is done with
         // it on our side, it's here to help with your debugging

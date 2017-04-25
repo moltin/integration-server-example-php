@@ -22,9 +22,17 @@ class WebhookHandler extends BaseHandler
             $e->$action('webhook', $payload);
         }
 
+        $body = ['acknowledged' => true];
+        if (getenv('APP_DEBUG') == "true") {
+            $body['debug'] = [
+                'payload' => $payload,
+                'entity' => $entityClass
+            ];
+        }
+
         // Note: the body is not required in the response, nothing is done with
         // it on our side, it's here to help with your debugging
-        return $response->withJson(['acknowledged' => true], 200);
+        return $response->withJson($body, 200);
     }
 
 }
