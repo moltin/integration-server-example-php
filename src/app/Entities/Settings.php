@@ -14,9 +14,8 @@ class Settings extends \IntegrationServer\Entity
             if (($slack = $this->slack())) {
 
                 $message = 'Settings have been created';
-                if (($product = $this->getResource('settings', $payload))) {
-                    $forgeLink = $this->forgeLink("admin/settings/" . $product->id);
-                    $message .= " (" . $product->name . ")";
+                if (($settings = $this->getResource('settings', $payload))) {
+                    $forgeLink = $this->forgeLink("admin/settings");
                     $message .= "\n<" . $forgeLink . "|View on Forge>";
                 }
 
