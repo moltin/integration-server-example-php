@@ -27,8 +27,8 @@ class Order extends \IntegrationServer\Entity
                         "author_link" => $forgeLink,
                         "fields" => [
                             [
-                                "title" => "Value (inc)",
-                                "value" => $order->meta->display_price->with_tax->formatted . " (inc), " . $order->meta->display_price->without_tax->formatted . " (exc)",
+                                "title" => "Value",
+                                "value" => $order->meta->display_price->with_tax->formatted . " (inc tax)",
                                 "short" => true
                             ],
                             [
