@@ -27,13 +27,23 @@ class Order extends \IntegrationServer\Entity
                         "author_link" => $forgeLink,
                         "fields" => [
                             [
-                                "title" => "Value",
-                                "value" => $order->meta->value->with_tax->formatted,
+                                "title" => "Value (inc)",
+                                "value" => $order->meta->display_price->with_tax->formatted . " (inc), " . $order->meta->display_price->without_tax->formatted . " (exc)",
                                 "short" => true
                             ],
                             [
-                                "title" => "Products",
-                                "value" => $order->meta->counts->products->total . " (total) / " . $order->meta->counts->products->unique . " (unique)",
+                                "title" => "Customer",
+                                "value" => implode("\n", $order->customer),
+                                "short" => true
+                            ],
+                            [
+                                "title" => "Shipping",
+                                "value" => $order->shipping,
+                                "short" => true
+                            ],
+                            [
+                                "title" => "Payment",
+                                "value" => $order->payment,
                                 "short" => true
                             ]
                         ]
