@@ -33,7 +33,7 @@ class Order extends \IntegrationServer\Entity
                             ],
                             [
                                 "title" => "Customer",
-                                "value" => implode("\n", $order->customer),
+                                "value" => $order->customer->name . " (" . $order->customer->email . ")",
                                 "short" => true
                             ],
                             [
