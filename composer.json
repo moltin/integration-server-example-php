@@ -2,7 +2,7 @@
     "require": {
         "slim/slim": "^3.0",
         "vlucas/phpdotenv": "^2.4",
-        "moltin/php-sdk": "v2.x-dev",
+        "moltin/php-sdk": "^2.0.2",
         "maknz/slack": "^1.7",
         "monolog/monolog": "^1.22.1"
     },
